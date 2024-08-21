@@ -7,27 +7,27 @@ export class UsersController {
 
     @Get() // GET /users
     findAll(@Query('role') role?: 'OFFICE_WORKER' | 'PHYSICAL_WORKER') {
-        return []
+        return this.usersService.findAll(role)
     }
 
     @Get(':id') // GET /users/:id
     findOne(@Param('id') id: string) {
-        return { id }
+        return this.usersService.findOne(id)
     }
 
     @Post() // POST /users
     create(@Body() userCreateDto: { name: string, email: string, role: string }) {
-        return userCreateDto
+        return this.usersService.create(userCreateDto)
     }
 
     @Patch(':id') // PATCH /users/:id
     update(@Param('id') id: string, @Body() userUpdateDto: { name?: string, email?: string, role?: string }) {
-        return userUpdateDto
+        return this.usersService.update(id, userUpdateDto)
     }
 
     @Delete(':id') // DELETE /users/:id
     remove(@Param('id') id: string) {
-        return { id }
+        return this.usersService.delete(id)
     }
 
 }
