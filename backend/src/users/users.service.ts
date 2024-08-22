@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
+import { CreateUserDto, UserRole } from './dto/create-user';
+import { UpdateUserDto } from './dto/update-user';
 
 @Injectable()
 export class UsersService {
@@ -8,35 +10,70 @@ export class UsersService {
             "id": "1",
             "name": "Neven Mitrovic",
             "email": "nevenmitrovic4@gmail.com",
-            "role": "OFFICE_WORKER"
+            "role": 1,
+            "password": "blabla",
+            "experience": 5,
+            "benefits": false,
+            "drink": false,
+            "coefficient": 2.631,
+            "started": "20.07.2024",
+            "perHour": 360
         },
         {
             "id": "2",
             "name": "Neven Mitrovic 2",
             "email": "nevenmitrovic41@gmail.com",
-            "role": "ADMIN"
+            "role": 0,
+            "password": "blabla",
+            "experience": 5,
+            "benefits": false,
+            "drink": false,
+            "coefficient": 2.631,
+            "started": "20.07.2024",
+            "perHour": 360
         },
         {
             "id": "3",
             "name": "Neven Mitrovic 3",
             "email": "nevenmitrovic42@gmail.com",
-            "role": "OFFICE_WORKER"
+            "role": 1,
+            "password": "blabla",
+            "experience": 5,
+            "benefits": false,
+            "drink": false,
+            "coefficient": 2.631,
+            "started": "20.07.2024",
+            "perHour": 360
         },
         {
             "id": "4",
             "name": "Neven Mitrovic 4",
             "email": "nevenmitrovic43@gmail.com",
-            "role": "PHYSICAL_WORKER"
+            "role": 2,
+            "password": "blabla",
+            "experience": 5,
+            "benefits": false,
+            "drink": false,
+            "coefficient": 2.631,
+            "started": "20.07.2024",
+            "perHour": 360
         },
         {
             "id": "5",
             "name": "Neven Mitrovic 5",
             "email": "nevenmitrovic44@gmail.com",
-            "role": "PHYSICAL_WORKER"
+            "role": 2,
+            "password": "blabla",
+            "experience": 5,
+            "benefits": false,
+            "drink": false,
+            "coefficient": 2.631,
+            "started": "20.07.2024",
+            "perHour": 360
         },
     ]
 
-    findAll(role?: 'OFFICE_WORKER' | 'PHYSICAL_WORKER' | 'ADMIN') {
+    findAll(role?: UserRole) {
         if (role) {
             const rolesArray = this.users.filter(user => user.role === role)
             if (rolesArray.length === 0) throw new NotFoundException('User role not found')
@@ -47,20 +84,20 @@ export class UsersService {
 
     findOne(id: string) {
         const user = this.users.find(user => user.id === id)
-        if(!user) throw new NotFoundException('User not found')
+        if (!user) throw new NotFoundException('User not found')
         return user
     }
 
-    create(createdUserDto: { name: string, email: string, role: string }) {
+    create(createdUserDto: CreateUserDto) {
         const newUser = {
-            id: 'random',
+            id: 'string',
             ...createdUserDto
         }
         this.users.push(newUser)
         return newUser
     }
 
-    update(id: string, updatedUserDto: { name?: string, email?: string, role?: string }) {
+    update(id: string, updatedUserDto: UpdateUserDto) {
         this.users = this.users.map(user => {
             if (user.id === id) {
                 return { ...user, ...updatedUserDto }
