@@ -1,117 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto, UserRole } from './dto/create-user';
 import { UpdateUserDto } from './dto/update-user';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './schemas/user.schema';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class UsersService {
-    private users = [
-        {
-            "id": "1",
-            "name": "Neven Mitrovic",
-            "email": "nevenmitrovic4@gmail.com",
-            "role": 1,
-            "password": "blabla",
-            "experience": 5,
-            "benefits": false,
-            "drink": false,
-            "coefficient": 2.631,
-            "started": "20.07.2024",
-            "perHour": 360
-        },
-        {
-            "id": "2",
-            "name": "Neven Mitrovic 2",
-            "email": "nevenmitrovic41@gmail.com",
-            "role": 0,
-            "password": "blabla",
-            "experience": 5,
-            "benefits": false,
-            "drink": false,
-            "coefficient": 2.631,
-            "started": "20.07.2024",
-            "perHour": 360
-        },
-        {
-            "id": "3",
-            "name": "Neven Mitrovic 3",
-            "email": "nevenmitrovic42@gmail.com",
-            "role": 1,
-            "password": "blabla",
-            "experience": 5,
-            "benefits": false,
-            "drink": false,
-            "coefficient": 2.631,
-            "started": "20.07.2024",
-            "perHour": 360
-        },
-        {
-            "id": "4",
-            "name": "Neven Mitrovic 4",
-            "email": "nevenmitrovic43@gmail.com",
-            "role": 2,
-            "password": "blabla",
-            "experience": 5,
-            "benefits": false,
-            "drink": false,
-            "coefficient": 2.631,
-            "started": "20.07.2024",
-            "perHour": 360
-        },
-        {
-            "id": "5",
-            "name": "Neven Mitrovic 5",
-            "email": "nevenmitrovic44@gmail.com",
-            "role": 2,
-            "password": "blabla",
-            "experience": 5,
-            "benefits": false,
-            "drink": false,
-            "coefficient": 2.631,
-            "started": "20.07.2024",
-            "perHour": 360
-        },
-    ]
 
-    findAll(role?: UserRole) {
-        if (role) {
-            const rolesArray = this.users.filter(user => user.role === role)
-            if (rolesArray.length === 0) throw new NotFoundException('User role not found')
+    constructor(
+        @InjectModel(User.name)
+        private userModel: mongoose.Model<User>
+    ) {}
+
+    async findAll(role?: UserRole) : Promise<User[]> {
+        if(role) {
+            const rolesArray = await this.userModel.find({ role })
+            if (rolesArray.length === 0) throw new NotFoundException('Users with this role not found')
             return rolesArray
         }
-        return this.users
+        return await this.userModel.find({})
     }
 
-    findOne(id: string) {
-        const user = this.users.find(user => user.id === id)
-        if (!user) throw new NotFoundException('User not found')
-        return user
-    }
-
-    create(createdUserDto: CreateUserDto) {
-        const newUser = {
-            id: 'string',
-            ...createdUserDto
+    async findOne(id: string) : Promise<User> {
+        try {
+            if (!mongoose.isValidObjectId(id)) throw new BadRequestException('Invalid ID format')
+            const user = await this.userModel.findById(id)
+            if (!user) throw new NotFoundException('User not found')
+            return user
+        } catch (error) {
+            console.error(error)
+            throw error
         }
-        this.users.push(newUser)
+    }
+
+    async create(createdUserDto: CreateUserDto) : Promise<User> {
+        const newUser = createdUserDto
+        await this.userModel.create(newUser)
         return newUser
     }
 
-    update(id: string, updatedUserDto: UpdateUserDto) {
-        this.users = this.users.map(user => {
-            if (user.id === id) {
-                return { ...user, ...updatedUserDto }
-            }
-        })
-
-        return this.findOne(id)
+    async update(id: string, updatedUserDto: UpdateUserDto) : Promise<User> {
+        await this.userModel.findByIdAndUpdate(id, updatedUserDto)
+        return await this.userModel.findById(id)
     }
 
-    delete(id: string) {
-        const removedUser = this.findOne(id)
-        this.users = this.users.filter(user => user.id !== id)
-
-        return removedUser
+    async delete(id: string) : Promise<User> {
+        const deletedUser = await this.userModel.findById({ _id: id })
+        await this.userModel.deleteOne({ _id: id })
+        return deletedUser
     }
 
 }

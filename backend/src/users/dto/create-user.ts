@@ -39,5 +39,4 @@ export class CreateUserDto {
     @IsNumber()
     perHour: number;
 
-    id: string;  // izbrisati posle kad se poveze mongoose
 }
