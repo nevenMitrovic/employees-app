@@ -32,4 +32,9 @@ export class UsersController {
         return this.usersService.delete(id)
     }
 
+    @Get('/getMonthSalary/:id') // GET users/:id
+    getMonthSalaryForUser(@Param('id') id: string) {
+        return this.usersService.getMonthSalary(id)
+    }
+
 }
