@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import * as mongoose from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { dateFormater } from 'src/utils/dateFormater';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +20,7 @@ export class UsersService {
     @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
     async checkDate() {
         const users = await this.findAll()
-        const date = new Date().toLocaleString()
+        const date = dateFormater(new Date().toLocaleString())
         
     }
 
@@ -86,5 +87,5 @@ export class UsersService {
             throw error
         }
     }
-    
+
 }
