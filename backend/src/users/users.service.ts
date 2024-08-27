@@ -21,8 +21,8 @@ export class UsersService {
     async checkDate() {
         const users = await this.findAll()
         const date = dateFormater(new Date().toLocaleString())
-        for(const user of users) {
-            if((user.started.split('.')[0] + '.' + user.started.split('.')[1]) === date && user.benefits) {
+        for (const user of users) {
+            if ((user.started.split('.')[0] + '.' + user.started.split('.')[1]) === date && user.benefits) {
                 await this.userModel.findByIdAndUpdate(user._id, {
                     experience: user.experience + 1,
                     ...user
@@ -54,8 +54,13 @@ export class UsersService {
     }
 
     async create(createdUserDto: CreateUserDto): Promise<User> {
-        const newUser = new this.userModel(createdUserDto)
-        return await newUser.save()
+        try {
+            const newUser = new this.userModel(createdUserDto)
+            return await newUser.save()
+        } catch (error) {
+            if(error.message.includes('duplicate key')) throw new BadRequestException('Email must be unique')
+            throw error
+        }
     }
 
     async update(id: string, updatedUserDto: UpdateUserDto): Promise<User> {
@@ -81,11 +86,11 @@ export class UsersService {
         }
     }
 
-    async getMonthSalary (id: string): Promise<number> {
+    async getMonthSalary(id: string): Promise<number> {
         try {
             if (!mongoose.isValidObjectId(id)) throw new BadRequestException('Invalid ID format')
             const user = await this.userModel.findById(id)
-            if(!user) throw new NotFoundException('User not found')
+            if (!user) throw new NotFoundException('User not found')
 
             // Mesecna plata se obracunava na osnovu koeficijenta radnika i pomnozenog broja radnih sati u tom mesecu sa placenim radnim satom
             return user.coefficient * (160 * user.perHour)
