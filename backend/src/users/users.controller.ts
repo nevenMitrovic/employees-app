@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, ValidationPip
 import { UsersService } from './users.service';
 import { CreateUserDto, UserRole } from './dto/create-user';
 import { UpdateUserDto } from './dto/update-user';
+import { User } from './schemas/user.schema';
+import { LoginDto } from './dto/login';
 
 @Controller('users')
 export class UsersController {
@@ -18,7 +20,7 @@ export class UsersController {
     }
 
     @Post() // POST /users
-    create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
+    create(@Body(ValidationPipe) createUserDto: CreateUserDto): Promise<User> {
         return this.usersService.create(createUserDto)
     }
 
@@ -37,4 +39,8 @@ export class UsersController {
         return this.usersService.getMonthSalary(id)
     }
 
+    @Post('/login') // POST /users/login
+    login(@Body(ValidationPipe) loginDto: LoginDto) {
+        return this.usersService.login(loginDto)
+    }
 }

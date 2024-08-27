@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common';
 import { CreateUserDto, UserRole } from './dto/create-user';
 import { UpdateUserDto } from './dto/update-user';
@@ -7,13 +7,17 @@ import { User } from './schemas/user.schema';
 import * as mongoose from 'mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { dateFormater } from 'src/utils/dateFormater';
+import * as bcrypt from 'bcryptjs'
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/login';
 
 @Injectable()
 export class UsersService {
 
     constructor(
         @InjectModel(User.name)
-        private userModel: mongoose.Model<User>
+        private userModel: mongoose.Model<User>,
+        private jwtService: JwtService
     ) { }
 
     // Provera datuma pocetka ugovora zaposlenih zbog radnog staza i beneficija
@@ -55,8 +59,13 @@ export class UsersService {
 
     async create(createdUserDto: CreateUserDto): Promise<User> {
         try {
-            const newUser = new this.userModel(createdUserDto)
-            return await newUser.save()
+            const { password, ...otherFields } = createdUserDto
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const newUser = await this.userModel.create({
+                ...otherFields,
+                password: hashedPassword
+            })
+            return newUser
         } catch (error) {
             if(error.message.includes('duplicate key')) throw new BadRequestException('Email must be unique')
             throw error
@@ -94,6 +103,24 @@ export class UsersService {
 
             // Mesecna plata se obracunava na osnovu koeficijenta radnika i pomnozenog broja radnih sati u tom mesecu sa placenim radnim satom
             return user.coefficient * (160 * user.perHour)
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
+
+    async login(loginDto: LoginDto): Promise<{ token: string; user: User }> {
+        try {
+            const { email, password } = loginDto
+            const user = await this.userModel.findOne({ email })
+            if(!user) throw new UnauthorizedException('Invalid email or password')
+            const isPasswordMatched = await bcrypt.compare(password, user.password)
+            if(!isPasswordMatched) throw new UnauthorizedException('Invalid email or password')
+            const token = this.jwtService.sign({ id: user._id })
+            return {
+                token,
+                user
+            }
         } catch (error) {
             console.error(error)
             throw error

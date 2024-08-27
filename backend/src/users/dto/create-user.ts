@@ -1,4 +1,4 @@
-import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString} from "class-validator";
+import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsString, MinLength } from "class-validator";
 
 export enum UserRole {
     ADMIN = 0,
@@ -11,11 +11,12 @@ export class CreateUserDto {
     @IsNotEmpty()
     name: string;
 
-    @IsEmail()
+    @IsEmail({}, {message: 'Please enter correct email'})
     email: string;
 
     @IsString()
     @IsNotEmpty()
+    @MinLength(6, { message: 'Password must be at least 6 characters long' })
     password: string;
 
     @IsEnum(UserRole)
