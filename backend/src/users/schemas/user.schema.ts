@@ -1,23 +1,24 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { UserRole } from "../dto/create-user";
+import { Document } from "mongoose";
 
 @Schema({
     timestamps: true
 })
-export class User {
-    @Prop()
+export class User extends Document {
+    @Prop({ required: true })
     name: string;
 
-    @Prop()
+    @Prop({ required: true })
     email: string;
 
-    @Prop()
+    @Prop({ required: true })
     password: string;
 
     @Prop()
     role: UserRole;
 
-    @Prop()
+    @Prop({ default: 0 })
     experience: number;
 
     @Prop()

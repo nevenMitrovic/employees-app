@@ -21,10 +21,18 @@ export class UsersService {
     async checkDate() {
         const users = await this.findAll()
         const date = dateFormater(new Date().toLocaleString())
-        
+        for(const user of users) {
+            if((user.started.split('.')[0] + '.' + user.started.split('.')[1]) === date && user.benefits) {
+                await this.userModel.findByIdAndUpdate(user._id, {
+                    experience: user.experience + 1,
+                    ...user
+                })
+            }
+        }
     }
 
     async findAll(role?: UserRole): Promise<User[]> {
+        dateFormater(new Date().toLocaleString())
         if (role) {
             const rolesArray = await this.userModel.find({ role })
             if (rolesArray.length === 0) throw new NotFoundException('Users with this role not found')
@@ -46,9 +54,8 @@ export class UsersService {
     }
 
     async create(createdUserDto: CreateUserDto): Promise<User> {
-        const newUser = createdUserDto
-        await this.userModel.create(newUser)
-        return newUser
+        const newUser = new this.userModel(createdUserDto)
+        return await newUser.save()
     }
 
     async update(id: string, updatedUserDto: UpdateUserDto): Promise<User> {
