@@ -6,6 +6,7 @@ import { UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { ConfigService } from '@nestjs/config';
     PassportModule.register({ defaultStrategy: 'jwt' })
   ],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [UsersService, JwtStrategy]
 })
 export class UsersModule {}
