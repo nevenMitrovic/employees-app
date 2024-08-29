@@ -1,58 +1,35 @@
-import axios from 'axios'
-import { useState } from 'react'
+import axios from "axios";
 
-const useAxios = () => {
-    const [response, setResponse] = useState()
-    const [error, setError] = useState()
-    const [loading, setLoading] = useState()
+export function useAxios() {
+  const axiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+  });
 
-    const axiosInstance = axios.create({
-        baseURL: 'http://localhost:3000/'
-    })
-
-    axiosInstance.interceptors.request.use(
-        (config) => {
-            return config
-        },
-        (error) => {
-            return Promise.reject(error)
-        }
-    )
-    axiosInstance.interceptors.response.use(
-        (response) => {
-            return response
-        },
-        (error) => {
-            return Promise.reject(error)
-        }
-    )
-
-    const fetchData = async ({ method, url, data = {}, params = {} }) => {
-        setLoading(true)
-
-        try {
-            const result = await axiosInstance({
-                method,
-                url,
-                data,
-                params
-            })
-            setResponse(result.data)
-        } catch (error) {
-            setError(error)
-            console.error(error.response ? error.response.data : error.message)
-            throw error
-        } finally {
-            setLoading(false)
-        }
+  // Add a request interceptor
+  axios.interceptors.request.use(
+    function (config) {
+      // Do something before request is sent
+      return config;
+    },
+    function (error) {
+      // Do something with request error
+      return Promise.reject(error);
     }
+  );
 
-    return {
-        response,
-        error,
-        loading,
-        fetchData
+  // Add a response interceptor
+  axios.interceptors.response.use(
+    function (response) {
+      // Any status code that lie within the range of 2xx cause this function to trigger
+      // Do something with response data
+      return response;
+    },
+    function (error) {
+      // Any status codes that falls outside the range of 2xx cause this function to trigger
+      // Do something with response error
+      return Promise.reject(error);
     }
+  );
+
+  return axiosInstance
 }
-
-export default useAxios
