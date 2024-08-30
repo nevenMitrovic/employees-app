@@ -12,6 +12,16 @@ class UsersService {
             throw error
         }
     }
+
+    async login(data) {
+        try {
+            const response = await this.httpClient.post('/users/login', data)
+            return response.data
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
 }
 
 export default new UsersService()
