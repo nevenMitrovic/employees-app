@@ -8,10 +8,12 @@ import {
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import UsersService from '../../services/usersService'
+import Cookies from 'universal-cookie'
 
 const Login = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
 
+  const cookies = new Cookies(null, { path: '/' })
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -27,7 +29,9 @@ const Login = () => {
     }),
     onSubmit: (values) => {
       UsersService.login(values)
-      .then(res => console.log(res))
+      .then((res) => {
+        cookies.set('jwt_token', res)
+      })
     }
   })
 
