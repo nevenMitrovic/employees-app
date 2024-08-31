@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from '@/assets/logo.jpg'
 import { useState } from 'react'
 import {
@@ -9,10 +9,13 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import UsersService from '../../services/usersService'
 import Cookies from 'universal-cookie'
+import useStore from '../../store/zustand'
 
 const Login = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
 
+  const navigate = useNavigate()
+  const setUser = useStore((state) => state.setUser)
   const cookies = new Cookies(null, { path: '/' })
   const formik = useFormik({
     initialValues: {
@@ -30,7 +33,9 @@ const Login = () => {
     onSubmit: (values) => {
       UsersService.login(values)
       .then((res) => {
-        cookies.set('jwt_token', res)
+        cookies.set('jwt_token', res.token)
+        setUser(res.user)
+        if(res.user) navigate('/dashboard')
       })
     }
   })
