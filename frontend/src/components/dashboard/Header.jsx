@@ -15,7 +15,7 @@ const Header = () => {
     }
 
     return (
-        <div className="bg-blue-500 h-6 flex justify-end items-center px-5 text-sm font-bold">
+        <div className="bg-blue-500 h-[2.6vh] flex justify-end items-center px-5 text-sm font-bold">
             <div className="border-r border-black px-2">
                 {user.name}
             </div>

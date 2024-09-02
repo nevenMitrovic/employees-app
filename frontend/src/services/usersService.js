@@ -3,9 +3,9 @@ import { useAxios } from "../hooks/useAxios";
 class UsersService {
     httpClient = useAxios()
 
-    async findAll(url) {
+    async findAll() {
         try {
-            const response = await this.httpClient.get(url)
+            const response = await this.httpClient.get('/users')
             return response.data
         } catch (error) {
             console.error(error)
