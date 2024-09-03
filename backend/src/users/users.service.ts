@@ -36,7 +36,6 @@ export class UsersService {
     }
 
     async findAll(role?: UserRole): Promise<User[]> {
-        dateFormater(new Date().toLocaleString())
         if (role) {
             const rolesArray = await this.userModel.find({ role })
             if (rolesArray.length === 0) throw new NotFoundException('Users with this role not found')
