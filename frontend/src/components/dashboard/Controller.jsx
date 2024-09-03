@@ -2,10 +2,9 @@ import { useEffect, useState } from "react"
 import UsersService from "../../services/usersService"
 import Spinner from "../Spinner"
 
-const Controller = () => {
+const Controller = ({ handleErr }) => {
     const [loading, setLoading] = useState(null)
     const [employees, setEmployees] = useState(null)
-    const [error, setError] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -14,7 +13,7 @@ const Controller = () => {
                 const res = await UsersService.findAll()
                 setEmployees(res)
             } catch (error) {
-                setError(error)
+                handleErr(error)
                 console.log(error)
             } finally {
                 setLoading(false)
@@ -24,13 +23,7 @@ const Controller = () => {
         fetchData()
     }, [])
 
-    if (error) {
-        return (
-            <div>
-                SERVER ERROR
-            </div>
-        )
-    }
+
 
     return (
         <div className="w-1/3 h-[97.4vh] bg-orange-300 border-r">
