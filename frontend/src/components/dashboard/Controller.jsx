@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import UsersService from "../../services/usersService"
 import Spinner from "../Spinner"
 
-const Controller = ({ handleErr }) => {
+const Controller = ({ handleErr, id }) => {
     const [loading, setLoading] = useState(null)
     const [employees, setEmployees] = useState(null)
 
@@ -38,7 +38,11 @@ const Controller = ({ handleErr }) => {
                                 employees !== null &&
                                 employees.map(employee => {
                                     return (
-                                        <p key={employee._id} className="border-b flex items-center justify-center cursor-pointer hover:text-white">
+                                        <p
+                                            key={employee._id}
+                                            className="border-b flex items-center justify-center cursor-pointer hover:text-white"
+                                            onClick={id}
+                                        >
                                             {employee.name}
                                         </p>
                                     )

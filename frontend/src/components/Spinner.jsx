@@ -8,12 +8,12 @@ const Spinner = ({ loading }) => {
     }
 
     return (
-        <div className="flex items-center justify-center h-full">
+        <div className="flex justify-center h-full">
             <ClipLoader
                 color="#74B7FD"
                 loading={loading}
                 cssOverride={override}
-                size={150}
+                size={100}
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
