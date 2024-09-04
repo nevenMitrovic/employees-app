@@ -3,6 +3,7 @@ import Button from "../forms/Button"
 
 const Info = ({ id }) => {
     let employee = null
+    const loggedUser = useStore((state) => state.user)
     const employees = useStore((state) => state.users)
     if (id !== null) {
         employee = employees.find(employee => id === employee._id)
@@ -51,7 +52,7 @@ const Info = ({ id }) => {
                     <span className="font-bold"> Per hour: </span> {employee.perHour + ' RSD'}
                 </p>
             </div>
-            <div className="flex gap-5">
+            <div className={`flex gap-5 ${loggedUser.role !== 0 && 'hidden'}`}>
                 <Button
                     text={'Update'}
                     color={'bg-blue-600'}

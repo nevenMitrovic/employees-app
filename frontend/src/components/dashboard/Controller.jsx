@@ -10,6 +10,7 @@ const Controller = ({ handleErr, id }) => {
     const [search, setSearch] = useState('')
 
     const setUsers = useStore((state) => state.setUsers)
+    const loggedUser = useStore((state) => state.user)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,7 +42,9 @@ const Controller = ({ handleErr, id }) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full px-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <div className="flex gap-2 justify-end items-center hover:text-gray-400 cursor-pointer text-sm text-gray-600 py-1">
+                <div
+                    className={`flex gap-2 justify-end items-center hover:text-gray-400 cursor-pointer text-sm text-gray-600 py-1 ${loggedUser.role !== 0 && 'hidden'}`}
+                >
                     <UserRoundPlus
                         size={16}
                     />
