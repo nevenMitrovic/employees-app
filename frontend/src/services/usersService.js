@@ -22,6 +22,20 @@ class UsersService {
             throw error
         }
     }
+
+    async delete(id, token) {
+        try {
+            const response = await this.httpClient.delete('/users/' + id, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
 }
 
 export default new UsersService()

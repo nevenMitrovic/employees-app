@@ -1,12 +1,22 @@
 import useStore from "../../store/zustand"
 import Button from "../forms/Button"
+import UsersService from "../../services/usersService"
+import Cookies from "universal-cookie"
 
-const Info = ({ id }) => {
+const Info = ({ id, setId, update}) => {
     let employee = null
     const loggedUser = useStore((state) => state.user)
     const employees = useStore((state) => state.users)
     if (id !== null) {
         employee = employees.find(employee => id === employee._id)
+    }
+
+    const deleteUser = (id) => {
+        setId(null)
+        const cookies = new Cookies(null, { path: '/' })
+        const token = cookies.get('jwt_token')
+        UsersService.delete(id, token)
+        update()
     }
 
     if (id === null) {
@@ -66,6 +76,7 @@ const Info = ({ id }) => {
                     hoverColor={'bg-red-300'}
                     textSize={'text-sm'}
                     buttonType={'button'}
+                    func={() => deleteUser(id)}
                 />
             </div>
         </div>

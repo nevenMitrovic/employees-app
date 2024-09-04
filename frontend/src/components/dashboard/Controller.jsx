@@ -4,7 +4,7 @@ import Spinner from "../Spinner"
 import useStore from '../../store/zustand'
 import { UserRoundPlus } from "lucide-react"
 
-const Controller = ({ handleErr, id }) => {
+const Controller = ({ handleErr, id, update }) => {
     const [loading, setLoading] = useState(null)
     const [employees, setEmployees] = useState(null)
     const [search, setSearch] = useState('')
@@ -28,7 +28,7 @@ const Controller = ({ handleErr, id }) => {
         }
 
         fetchData()
-    }, [])
+    }, [update])
 
     return (
         <div className="w-1/3 h-[97.4vh] bg-orange-300 border-r">

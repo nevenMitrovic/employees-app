@@ -6,12 +6,16 @@ import Info from "./Info"
 const Main = () => {
     const [error, setError] = useState(false)
     const [id, setId] = useState(null)
+    const [update, setUpdate] = useState(false)
 
     const handleError = (err) => {
         setError(err)
     }
     const setUserId = (id) => {
         setId(id)
+    }
+    const setUpdateSignal = () => {
+        setUpdate(!update)
     }
 
     if (error) {
@@ -27,8 +31,13 @@ const Main = () => {
             <Controller
                 handleErr={handleError}
                 id={setUserId}
+                update={update}
             />
-            <Info id={id} />
+            <Info
+                id={id}
+                setId={setUserId}
+                update={setUpdateSignal}
+            />
         </div>
     )
 }
