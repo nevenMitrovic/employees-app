@@ -10,7 +10,7 @@ const Post = () => {
             <ArrowLeft
                 size={32}
                 className="absolute left-1 top-1 hover:text-gray-400 cursor-pointer"
-                onClick={() => navigate(-1)}
+                onClick={() => navigate('/dashboard')}
             />
             <h1 className="flex items-center justify-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                 Create New User
@@ -50,8 +50,8 @@ const Post = () => {
             </div>
             <div className="bg-white w-full py-4 px-2">
                 <label htmlFor="role" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
-                <select id="role" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option selected>Choose User role</option>
+                <select id="role" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option defaultValue>Choose User role</option>
                     <option value="0">Admin</option>
                     <option value="1">Office worker</option>
                     <option value="2">Physical worker</option>
@@ -69,24 +69,24 @@ const Post = () => {
             </div>
             <div className="bg-white w-full py-4 px-2">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Benefits</label>
-                <div class="flex items-center mb-4">
-                    <input id="answ1" type="checkbox" value="0" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label for="answ1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                <div className="flex items-center mb-4">
+                    <input id="answ1" type="checkbox" value="0" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    <label htmlFor="answ1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
                 </div>
-                <div class="flex items-center">
-                    <input id="answ2" type="checkbox" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label for="answ2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                <div className="flex items-center">
+                    <input id="answ2" type="checkbox" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    <label htmlFor="answ2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
                 </div>
             </div>
             <div className="bg-white w-full py-4 px-2">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Drink</label>
-                <div class="flex items-center mb-4">
-                    <input id="answ1" type="checkbox" value="0" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label for="answ1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                <div className="flex items-center mb-4">
+                    <input id="answ1" type="checkbox" value="0" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    <label htmlFor="answ1" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yes</label>
                 </div>
-                <div class="flex items-center">
-                    <input id="answ2" type="checkbox" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                    <label for="answ2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
+                <div className="flex items-center">
+                    <input id="answ2" type="checkbox" value="1" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                    <label htmlFor="answ2" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">No</label>
                 </div>
             </div>
             <div className="bg-white w-full py-4 px-2">

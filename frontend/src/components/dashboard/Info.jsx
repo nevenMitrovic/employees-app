@@ -4,12 +4,16 @@ import UsersService from "../../services/usersService"
 import Cookies from "universal-cookie"
 import { useState } from "react"
 import Dialog from "../Dialog"
+import { useNavigate } from "react-router-dom"
 
 const Info = ({ id, setId, update }) => {
     const [dialog, setDialog] = useState(false)
 
+    const navigate = useNavigate()
+
     let employee = null
     const loggedUser = useStore((state) => state.user)
+    const newUpdateUser = useStore((state) => state.setUpdateUser)
     const employees = useStore((state) => state.users)
     if (id !== null) {
         employee = employees.find(employee => id === employee._id)
@@ -28,6 +32,10 @@ const Info = ({ id, setId, update }) => {
     }
     const setVisibility = (value) => {
         setDialog(value)
+    }
+    const newUpdate = (user) => {
+        newUpdateUser(user)
+        navigate('/post')
     }
 
     if (id === null) {
@@ -81,6 +89,7 @@ const Info = ({ id, setId, update }) => {
                         hoverColor={'bg-blue-300'}
                         textSize={'text-sm'}
                         buttonType={'button'}
+                        func={() => newUpdate(employee)}
                     />
                     <Button
                         text={'Delete'}
