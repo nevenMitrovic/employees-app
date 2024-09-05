@@ -1,7 +1,12 @@
+import Header from "../components/dashboard/Header"
+import PostForm from "../components/forms/Post"
 
 const Post = () => {
   return (
-    <div>Post</div>
+    <>
+      <Header />
+      <PostForm />
+    </>
   )
 }
 
