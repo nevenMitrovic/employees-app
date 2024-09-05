@@ -5,7 +5,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react'
-import { useFormik } from 'formik'
+import { useFormik, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import UsersService from '../../services/usersService'
 import Cookies from 'universal-cookie'
@@ -13,6 +13,7 @@ import useStore from '../../store/zustand'
 
 const Login = () => {
   const [passwordVisibility, setPasswordVisibility] = useState(false)
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate()
   const setUser = useStore((state) => state.setUser)
@@ -32,11 +33,14 @@ const Login = () => {
     }),
     onSubmit: (values) => {
       UsersService.login(values)
-      .then((res) => {
-        cookies.set('jwt_token', res.token)
-        setUser(res.user)
-        if(res.user) navigate('/dashboard')
-      })
+        .then((res) => {
+          cookies.set('jwt_token', res.token)
+          setUser(res.user)
+          if (res.user) navigate('/dashboard')
+        })
+        .catch((error) => {
+          setError(error.response.data.message)
+        })
     }
   })
 
@@ -69,6 +73,10 @@ const Login = () => {
                 {formik.touched.email && formik.errors.email ? (
                   <div className="text-red-500 text-sm">{formik.errors.email}</div>
                 ) : null}
+                {
+                  error !== null &&
+                  <div className="text-red-500 text-sm">{error}</div>
+                }
               </div>
               <div>
                 <div className="flex justify-between items-center mb-2 gap-2">
@@ -104,20 +112,10 @@ const Login = () => {
                 {formik.touched.password && formik.errors.password ? (
                   <div className="text-red-500 text-sm">{formik.errors.password}</div>
                 ) : null}
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="" />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="remember" className="text-gray-500 dark:text-gray-300">Remember me</label>
-                  </div>
-                </div>
+                {
+                  error !== null &&
+                  <div className="text-red-500 text-sm">{error}</div>
+                }
               </div>
               <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
             </form>
