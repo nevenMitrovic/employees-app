@@ -3,6 +3,7 @@ import UsersService from "../../services/usersService"
 import Spinner from "../Spinner"
 import useStore from '../../store/zustand'
 import { UserRoundPlus } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const Controller = ({ handleErr, id, update }) => {
     const [loading, setLoading] = useState(null)
@@ -11,6 +12,8 @@ const Controller = ({ handleErr, id, update }) => {
 
     const setUsers = useStore((state) => state.setUsers)
     const loggedUser = useStore((state) => state.user)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,6 +47,7 @@ const Controller = ({ handleErr, id, update }) => {
                 />
                 <div
                     className={`flex gap-2 justify-end items-center hover:text-gray-400 cursor-pointer text-sm text-gray-600 py-1 ${loggedUser.role !== 0 && 'hidden'}`}
+                    onClick={() => navigate('/post')}
                 >
                     <UserRoundPlus
                         size={16}
