@@ -61,9 +61,6 @@ const Info = ({ id, setId, update }) => {
                         <span className="font-bold"> Role: </span> {employee.role === 0 ? 'Admin' : employee.role === 1 ? 'Office worker' : 'Physical worker'}
                     </p>
                     <p>
-                        <span className="font-bold"> Email: </span> {employee.email}
-                    </p>
-                    <p>
                         <span className="font-bold"> Experience: </span> {employee.experience === 1 ? 1 + ' year' : employee.experience + ' years'}
                     </p>
                     <p>

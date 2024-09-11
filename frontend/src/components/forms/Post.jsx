@@ -2,8 +2,21 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../forms/Button'
 import { ArrowLeft } from 'lucide-react'
 
-const Post = ({ userUpdate }) => {
+const Post = () => {
     const navigate = useNavigate()
+
+    const user = useStore((state) => state.updateUser)
+    const [values, setValues] = useState({
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        experience: user.experience,
+        benefits: user.benefits,
+        drink: user.drink,
+        coefficient: user.coefficient,
+        started: user.started,
+        perHour: user.perHour
+    })
 
     return (
         <div className="bg-gray-50 px-6 py-8 w-full max-h-screen h-[97.4vh] relative">
