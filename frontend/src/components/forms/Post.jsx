@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import Button from '../forms/Button'
 import { ArrowLeft } from 'lucide-react'
 
-const Post = () => {
+const Post = ({ userUpdate }) => {
     const navigate = useNavigate()
 
     return (

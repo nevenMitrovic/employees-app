@@ -5,7 +5,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react'
-import { useFormik, ErrorMessage } from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import UsersService from '../../services/usersService'
 import Cookies from 'universal-cookie'
