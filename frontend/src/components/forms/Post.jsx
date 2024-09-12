@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import useStore from '../../store/zustand'
 import Button from '../forms/Button'
 import { ArrowLeft } from 'lucide-react'
 
@@ -9,6 +11,7 @@ const Post = () => {
     const [values, setValues] = useState({
         name: user.name,
         email: user.email,
+        password: user.password,
         role: user.role,
         experience: user.experience,
         benefits: user.benefits,
@@ -34,6 +37,8 @@ const Post = () => {
                     type="text"
                     name="name"
                     id="name"
+                    value={values.name}
+                    onChange={(e) => setValues({ ...values, name: e.target.value })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="John Doe"
                     required
@@ -45,6 +50,8 @@ const Post = () => {
                     type="email"
                     name="email"
                     id="email"
+                    value={values.email}
+                    onChange={(e) => setValues({ ...values, email: e.target.value })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="name@company.com"
                     required
@@ -56,6 +63,8 @@ const Post = () => {
                     type="text"
                     name="password"
                     id="password"
+                    value={values.password}
+                    onChange={(e) => setValues({ ...values, password: e.target.value })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="*******"
                     required
