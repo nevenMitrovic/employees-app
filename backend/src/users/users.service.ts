@@ -66,7 +66,7 @@ export class UsersService {
             })
             return newUser
         } catch (error) {
-            if(error.message.includes('duplicate key')) throw new BadRequestException('Email must be unique')
+            if (error.message.includes('duplicate key')) throw new BadRequestException('Email must be unique')
             throw error
         }
     }
@@ -74,7 +74,10 @@ export class UsersService {
     async update(id: string, updatedUserDto: UpdateUserDto): Promise<User> {
         try {
             if (!mongoose.isValidObjectId(id)) throw new BadRequestException('Invalid ID format')
-            await this.userModel.findByIdAndUpdate(id, updatedUserDto)
+            const { password, ...otherFields } = updatedUserDto
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const newUserInfo = { ...otherFields, password: hashedPassword }
+            await this.userModel.findByIdAndUpdate(id, newUserInfo)
             return await this.userModel.findById(id)
         } catch (error) {
             console.error(error)
@@ -112,9 +115,9 @@ export class UsersService {
         try {
             const { email, password } = loginDto
             const user = await this.userModel.findOne({ email })
-            if(!user) throw new UnauthorizedException('Invalid email or password')
+            if (!user) throw new UnauthorizedException('Invalid email or password')
             const isPasswordMatched = await bcrypt.compare(password, user.password)
-            if(!isPasswordMatched) throw new UnauthorizedException('Invalid email or password')
+            if (!isPasswordMatched) throw new UnauthorizedException('Invalid email or password')
             const token = this.jwtService.sign({ id: user._id })
             return {
                 token,
