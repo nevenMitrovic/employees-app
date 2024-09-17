@@ -120,6 +120,7 @@ const Post = () => {
                     type="number"
                     name="coefficient"
                     id="coefficient"
+                    value={values.coefficient}
                     onChange={(e) => setValues({ ...values, coefficient: e.target.value })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="1.61"
@@ -133,7 +134,6 @@ const Post = () => {
                     id="started"
                     min={!user ? today : ''}
                     onChange={(e) => setValues({ ...values, started: dateFormater(e.target.value).DMY })}
-                    defaultValue={ !user ? today : dateFormater(values.started).ISO}
                 />
             </div>
             <div className="bg-white w-full py-4 px-2">
@@ -142,6 +142,8 @@ const Post = () => {
                     type="number"
                     name="perHour"
                     id="perHour"
+                    value={values.perHour}
+                    onChange={(e) => setValues({ ...values, perHour: e.target.value })}
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-1/3 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="160"
                 />
