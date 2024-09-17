@@ -36,6 +36,20 @@ class UsersService {
             throw error
         }
     }
+
+    async update(id, token, data) {
+        try {
+            const response = await this.httpClient.patch(`/users/${id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data
+        } catch (error) {
+            console.error(error)
+            throw error
+        }
+    }
 }
 
 export default new UsersService()
