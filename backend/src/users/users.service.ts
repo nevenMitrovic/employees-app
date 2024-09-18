@@ -75,10 +75,9 @@ export class UsersService {
         try {
             if (!mongoose.isValidObjectId(id)) throw new BadRequestException('Invalid ID format')
             const { password, ...otherFields } = updatedUserDto
-            const hashedPassword = await bcrypt.hash(password, 10)
-            const newUserInfo = { ...otherFields, password: hashedPassword }
-            await this.userModel.findByIdAndUpdate(id, newUserInfo)
-            return await this.userModel.findById(id)
+            const hashedPassword = password ? await bcrypt.hash(password, 10) : undefined;
+            const newUserInfo = hashedPassword ? { ...otherFields, password: hashedPassword } : otherFields;
+            return await this.userModel.findByIdAndUpdate(id, newUserInfo, { new: true })
         } catch (error) {
             console.error(error)
             throw error
