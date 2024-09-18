@@ -9,6 +9,7 @@ const useStore = create(
       updateUser: null,
       setUser: (newUser) => set({ user: newUser }),
       removeUser: () => set({ user: null }),
+      removeUpdateUser: () => set({ updateUser: null }),
       setUsers: (newUsers) => set({ users: newUsers }),
       setUpdateUser: (newUpdateUser) => set({ updateUser: newUpdateUser }),
     }),
