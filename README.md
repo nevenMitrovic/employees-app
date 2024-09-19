@@ -11,6 +11,8 @@ The app is divided into two main parts:
 
 ## Getting Started
 
+********** CREATE MANUAL ADMIN USER IN MONGODB EMPLOYEE-APP/USERS FOR FIRST LOG IN **********
+
 ### Backend Setup
 
 1. **Install dependencies:**
