@@ -11,7 +11,20 @@ The app is divided into two main parts:
 
 ## Getting Started
 
-********** CREATE MANUAL ADMIN USER IN MONGODB EMPLOYEE-APP/USERS FOR FIRST LOG IN **********
+### IMPORT MANUAL ADMIN USER IN MONGODB EMPLOYEE-APP/USERS FOR FIRST LOG IN 
+
+{
+  "name": "Test Admin",
+  "email": "testadmin@example.com",
+  "role": 1,
+  "password": "test123",
+  "experience": 1,
+  "benefits": false,
+  "drink": false,
+  "coefficient": 2.631,
+  "started": "20.07.2024",
+  "perHour": 360
+}
 
 ### Backend Setup
 
